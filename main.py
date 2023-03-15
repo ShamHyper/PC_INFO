@@ -44,16 +44,21 @@ if system == "Windows":
 else:
     print("Ваш компьютер не на ОС Windows!")
 
+process = psutil.Process()
+ram_count = process.memory_info().rss
+ram_total = psutil.virtual_memory().total
+
+
 x = wmi.WMI()
 
 # Вывод информации
-print("Имя пользователя ПК:", user_name)
-print("Папка пользователя ПК:", user_folder)
-print("Сборка:", rel)
+print("User:", user_name)
+print("User Dir:", user_folder)
+print("OS:", rel)
 print("IP:", ip_address)
-print("Свободное место: ~", space,"ГБ")
+print("Free Space: ~", space,"GB")
 for item in x.Win32_BaseBoard():
-    print("Материнская Плата: {} ".format(item.Product))
+    print("Motherboard: {} ".format(item.Product))
 print("CPU: {}".format(cpudata))
 print("GPU: {}".format(videodata))
 for item in x.Win32_PhysicalMemory():
@@ -62,8 +67,11 @@ for item in x.Win32_PhysicalMemory():
         break
     else:
         print("RAM: {} ".format(item.PartNumber))
+print("RAM Capacity(with pagefile):", ram_count//1024//1024,"GB")
+print("Ram Total:", ram_total//1024//1024//1024,"GB")
 
 os.system("pause")
+
 
 
 
