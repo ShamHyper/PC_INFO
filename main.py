@@ -85,7 +85,7 @@ tempdir_path2_size = get_directory_size(tempfile.gettempdir())
 for dirpath, _, filenames in os.walk(path):
     for f in filenames:
         fp = os.path.join(dirpath, f)
-        size += ((os.path.getsize(fp)/(1024*1024*1024))) + (tempdir_path2_size/(1024*1024*1024))
+        size += ((os.path.getsize(fp)//(1024*1024*1024))) + (tempdir_path2_size//(1024*1024*1024))
 
 # Bruh?
 print("User:", user_name)
@@ -107,8 +107,8 @@ for item in x.Win32_PhysicalMemory():
         print("RAM: {} ".format(item.PartNumber))
 print("RAM Capacity(with pagefile):", ram_count//1024//1024, "GB")
 print("Ram Total:", ram_total//1024//1024//1024, "GB")
-if size > 200:
-    print("Temp files size is too big!")
+if size > 5:
+    print("Temp files size is too big! (", (size),"GB )")
     input("Press ENTER to delete temp files...")
     for foldername in os.listdir(tempfile.gettempdir()):
         folderpath = os.path.join(tempfile.gettempdir(), foldername)
@@ -128,7 +128,8 @@ if size > 200:
                 shutil.rmtree(file_path)
         except Exception as e:
             print('Error on deleting ' + file_path + '. Reason: ' + str(e))
-
-print('Cleaning is complete!')
+    print('Cleaning is complete!')
+else:
+    print("Temp files size:", (size),"GB")
 
 os.system("pause")  # stoper
