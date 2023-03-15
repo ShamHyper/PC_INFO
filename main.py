@@ -10,9 +10,18 @@ user_folder = os.path.expanduser('~')
 rel = platform.platform(aliased=True)
 ip_response = requests.get('https://api.ipify.org?format=json')
 ip_address = ip_response.json()['ip']
-space1 = psutil.disk_usage("C:").free//(1024*1024*1024)
-space2 = psutil.disk_usage("D:").free//(1024*1024*1024)
-space = int(space1 + space2)
+total_free_space = 0
+
+for partition in psutil.disk_partitions():
+    mount_point = partition.mountpoint
+
+    try:
+        usage = psutil.disk_usage(mount_point)
+        total_free_space += usage.free
+    except PermissionError:
+        continue
+
+space = total_free_space // (1024**3)
 
 system = platform.system()
 platform = platform.platform()
@@ -56,7 +65,7 @@ print("User:", user_name)
 print("User Dir:", user_folder)
 print("OS:", rel)
 print("IP:", ip_address)
-print("Free Space: ~", space,"GB")
+print("Free Space: ~", space, "GB")
 for item in x.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
 print("CPU: {}".format(cpudata))
@@ -67,16 +76,7 @@ for item in x.Win32_PhysicalMemory():
         break
     else:
         print("RAM: {} ".format(item.PartNumber))
-print("RAM Capacity(with pagefile):", ram_count//1024//1024,"GB")
-print("Ram Total:", ram_total//1024//1024//1024,"GB")
+print("RAM Capacity(with pagefile):", ram_count//1024//1024, "GB")
+print("Ram Total:", ram_total//1024//1024//1024, "GB")
 
 os.system("pause")
-
-
-
-
-
-
-
-
-
