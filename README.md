@@ -5,5 +5,6 @@ It is advisable to run as an administrator!
 
 It works stably only on Windows OS
 
-![image](https://user-images.githubusercontent.com/104412752/225310868-18a8afbb-a6d9-45d5-8c6c-af4bb7fc65b6.png)
+![image](https://user-images.githubusercontent.com/104412752/225350249-6b1f2b62-9d59-41c4-8cb3-9eb7c7220a2e.png)
+
 
