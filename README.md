@@ -1,4 +1,4 @@
-# PC_INFO
+# PC_INFO 3
 Collecting general information about the PC, displayed as a console
 
 It is advisable to run as an administrator!
