@@ -53,7 +53,7 @@ if system == "Windows":
         videodata = "N/A"
 
 else:
-    print("Ваш компьютер не на ОС Windows!")
+    print("Windows OS supported only!")
 
 process = psutil.Process()
 ram_count = process.memory_info().rss
@@ -96,7 +96,7 @@ print("Free Space: ~", space, "GB")
 for item in x.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
 print("CPU: {}".format(cpudata))
-print("CPU cores: ", cpu_cores)
+print("CPU Cores:", cpu_cores)
 print("GPU: {}".format(videodata))
 print("GPU VRAM:", gpu_vram, "GB")
 for item in x.Win32_PhysicalMemory():
@@ -106,7 +106,7 @@ for item in x.Win32_PhysicalMemory():
     else:
         print("RAM: {} ".format(item.PartNumber))
 print("RAM Capacity(with pagefile):", ram_count//1024//1024, "GB")
-print("Ram Total:", ram_total//1024//1024//1024, "GB")
+print("RAM Total:", ram_total//1024//1024//1024, "GB")
 if size > 5:
     print("Temp files size is too big! (", (size),"GB )")
     input("Press ENTER to delete temp files...")
