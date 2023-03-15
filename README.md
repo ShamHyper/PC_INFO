@@ -3,8 +3,8 @@ Collecting general information about the PC, displayed as a console
 
 It is advisable to run as an administrator!
 
-It works stably only on Windows OS
+It works stably only on Windows OS and Nvidia GPU's (AMD supported, but can work wrong!)
 
-![image](https://user-images.githubusercontent.com/104412752/225350249-6b1f2b62-9d59-41c4-8cb3-9eb7c7220a2e.png)
+![image](https://user-images.githubusercontent.com/104412752/225399189-b19062b3-6dc2-4bae-96ec-6b60291df65c.png)
 
 
