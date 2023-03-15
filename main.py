@@ -55,7 +55,7 @@ print("Свободное место: ~", space,"ГБ")
 for item in x.Win32_BaseBoard():
     print("Материнская Плата: {} ".format(item.Product))
 print("CPU: {}".format(cpudata))
-print("Video card: {}".format(videodata))
+print("GPU: {}".format(videodata))
 for item in x.Win32_PhysicalMemory():
     if item == item:
         print("RAM: {} ".format(item.PartNumber))
