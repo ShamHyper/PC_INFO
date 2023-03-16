@@ -110,7 +110,7 @@ print("OS:", rel)
 print("Free Space: ~", space, "GB")
 for item in x.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
-print("CPU {}:".format(cpudata))
+print("CPU: {}".format(cpudata))
 print("CPU Cores:", cpu_cores)
 print("GPU: {}".format(videodata))
 print("GPU VRAM:", gpu_vram, "GB")
