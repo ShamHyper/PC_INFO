@@ -5,14 +5,30 @@ import psutil
 import wmi
 import GPUtil
 import tempfile
-import shutil
+import speedtest as st
+import uuid
+import geocoder
+import time
 
+os.system('cls' if os.name == 'nt' else 'clear')
+print("Dev: ShamHyper, Daun-Dev Studios")
+print("Wait, we collect data about your PC...")
+print("")
+
+start_time = time.time()
+st = st.Speedtest()
+download_speed = round(st.download()//1000000)
+upload_speed = round(st.upload()//1000000)
+mac_address = uuid.getnode()
 user_name = os.getlogin()
 user_folder = os.path.expanduser('~')
 rel = platform.platform(aliased=True)
 ip_response = requests.get('https://api.ipify.org?format=json')
 ip_address = ip_response.json()['ip']
 total_free_space = 0
+g = geocoder.ip('me')
+city = g.city
+country = g.country
 
 for partition in psutil.disk_partitions():
     mount_point = partition.mountpoint
@@ -56,7 +72,6 @@ else:
     print("Windows OS supported only!")
 
 process = psutil.Process()
-ram_count = process.memory_info().rss
 ram_total = psutil.virtual_memory().total
 
 x = wmi.WMI()
@@ -88,14 +103,14 @@ for dirpath, _, filenames in os.walk(path):
         size += ((os.path.getsize(fp)//(1024*1024*1024))) + (tempdir_path2_size//(1024*1024*1024))
 
 # Bruh?
+os.system('cls' if os.name == 'nt' else 'clear')
 print("User:", user_name)
 print("User Dir:", user_folder)
 print("OS:", rel)
-print("IP:", ip_address)
 print("Free Space: ~", space, "GB")
 for item in x.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
-print("CPU: {}".format(cpudata))
+print("CPU {}:".format(cpudata))
 print("CPU Cores:", cpu_cores)
 print("GPU: {}".format(videodata))
 print("GPU VRAM:", gpu_vram, "GB")
@@ -105,31 +120,21 @@ for item in x.Win32_PhysicalMemory():
         break
     else:
         print("RAM: {} ".format(item.PartNumber))
-print("RAM Capacity(with pagefile):", ram_count//1024//1024, "GB")
-print("RAM Total:", ram_total//1024//1024//1024, "GB")
-if size > 5:
-    print("Temp files size is too big! (", (size),"GB )")
-    input("Press ENTER to delete temp files...")
-    for foldername in os.listdir(tempfile.gettempdir()):
-        folderpath = os.path.join(tempfile.gettempdir(), foldername)
-        if os.path.isdir(folderpath):
-            for filename in os.listdir(folderpath):
-                filepath = os.path.join(folderpath, filename)
-                try:
-                    os.remove(filepath)
-                except Exception as e:
-                    print(f"Error on deleting {filepath}: {e}, try to run as administrator!")
-    for filename in os.listdir(path):
-        file_path = os.path.join(path, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)         
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print('Error on deleting ' + file_path + '. Reason: ' + str(e))
-    print('Cleaning is complete!')
-else:
-    print("Temp files size:", (size),"GB")
+print("RAM Capacity:", ram_total//1024//1024//1024, "GB")
+print("IP:", ip_address)
+print(f"You are located in {city}, {country}")
+print(f"Download Speed: {download_speed} MB/ps")
+print(f"Upload Speed: {upload_speed} MB/ps")
+print("")
 
-os.system("pause")  # stoper
+#########################################################################
+
+end_time = time.time()
+
+total_time = round(end_time - start_time)
+
+print("Information search time: ~", total_time, "seconds")
+
+os.system("pause") # stoper
+
+
