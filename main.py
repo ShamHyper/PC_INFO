@@ -3,12 +3,12 @@ import platform
 import requests
 import psutil
 import wmi
-import GPUtil
 import speedtest as st
 import geocoder
 import time
-import shutil
+import GPUtil
 
+x = wmi.WMI()
 os.system('cls' if os.name == 'nt' else 'clear')
 
 print('\033[31m')
@@ -70,8 +70,7 @@ if system == "Windows":
 else:
     print("Windows OS supported only!")
 
-gpu = GPUtil.getAvailable(order='first', limit=1, maxLoad=0.5, maxMemory=0.5, includeNan=False, excludeID=[], excludeUUID=[])[0]
-gpu_vram = round(GPUtil.getGPUs()[gpu].memoryTotal / 1024.0)
+gpus = GPUtil.getGPUs()
 
 print("GPU data collected!")
 
@@ -79,8 +78,6 @@ process = psutil.Process()
 ram_total = psutil.virtual_memory().total
 
 print("RAM data collected!")
-
-x = wmi.WMI()
 
 cpu_cores = psutil.cpu_count(logical=True)
 
@@ -101,8 +98,8 @@ for item in x.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
 print("CPU: {}".format(cpudata))
 print("CPU Cores:", cpu_cores)
-print("GPU: {}".format(videodata))
-print("GPU VRAM:", gpu_vram, "GB")
+for gpu in gpus:
+    print(f"GPU: {gpu.name} \nVRAM: {(round(gpu.memoryTotal))//1024} GB")
 for item in x.Win32_PhysicalMemory():
     if item == item:
         print("RAM: {} ".format(item.PartNumber))
@@ -190,7 +187,6 @@ print("")
 print("\(★ω★)/")
 
 os.system("pause") # stoper
-
 
 
 
