@@ -8,10 +8,8 @@ It works stably only on Windows OS and Nvidia GPUs ~~(AMD/Intel supported, but c
 def Intel_AMD_Finder(w):
     return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
 
-if Intel_AMD_Finder('NVIDIA')(gpuwho):#o_o
+if Intel_AMD_Finder('NVIDIA')(gpuwho): #Sorry, but so far it is
 ```
-Sorry, but so far it is
-
 You must have python installed to work properly!
 
 ![image](https://user-images.githubusercontent.com/104412752/225889613-69aed1d0-d947-4ed9-a47f-9f906b9f2771.png)
