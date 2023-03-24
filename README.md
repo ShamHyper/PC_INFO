@@ -3,7 +3,7 @@ Collecting general information about the PC, displayed as a console
 
 It is advisable to run as an administrator!
 
-It works stably only on Windows OS and Nvidia GPU's (AMD supported, but can work wrong!)
+It works stably only on Windows OS and Nvidia GPU's ~~(AMD supported, but can work wrong!)~~ - __This script no longer supports Intel/AMD GPUs!__
 
 You must have python installed to work properly!
 
