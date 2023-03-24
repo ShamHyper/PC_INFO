@@ -223,6 +223,3 @@ print("Bye!")
 print("")
 print("\(★ω★)/")
 os.system("pause") # stoper
-
-
-
