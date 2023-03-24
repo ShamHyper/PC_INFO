@@ -12,7 +12,7 @@ if Intel_AMD_Finder('NVIDIA')(gpuwho): #Sorry, but so far it is
 ```
 You must have python installed to work properly!
 
-![image](https://user-images.githubusercontent.com/104412752/225889613-69aed1d0-d947-4ed9-a47f-9f906b9f2771.png)
+![image](https://user-images.githubusercontent.com/104412752/227645135-0a748f97-8175-4f8c-bce9-e69324dc8183.png)
 
 ![image](https://user-images.githubusercontent.com/104412752/225889700-cc280e92-02d1-48e6-989b-34eac4b11233.png)
 
