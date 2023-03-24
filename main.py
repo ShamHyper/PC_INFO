@@ -111,14 +111,17 @@ os.system('cls' if os.name == 'nt' else 'clear')
 # Bruh?
 
 print('\033[37m')
+print("----------------------------------------------------------")
 print("User:", user_name)
 print("User Dir:", user_folder)
 print("OS:", rel)
+print("----------------------------------------------------------")
 print("Free Space: ~", space, "GB")
 for item in x.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
 print("CPU: {}".format(cpudata))
 print("CPU Cores:", cpu_cores)
+print("----------------------------------------------------------")
 
 #I HATE THIS PART OF CODE!!!!!!!!!!!!!!!!
 for gpu in gpus:
@@ -134,6 +137,7 @@ for gpu in gpus:
         print(f"GPU Memory Clock Rate: {memory_clock_rate} MHz")
 #I HATE THIS PART OF CODE!!!!!!!!!!!!!!!!
 
+print("----------------------------------------------------------")
 for item in x.Win32_PhysicalMemory():
     if item == item:
         print("RAM: {} ".format(item.PartNumber))
@@ -144,6 +148,7 @@ print("RAM Capacity:", ram_total//1024//1024//1024, "GB")
 for item in x.Win32_PhysicalMemory():
     print(f"RAM Frequency: {item.Speed} Hz")
     break
+print("----------------------------------------------------------")
 print("")
 
 end_time = time.time()
@@ -223,6 +228,3 @@ print("Bye!")
 print("")
 print("\(★ω★)/")
 os.system("pause") # stoper
-
-
-
