@@ -7,6 +7,8 @@ import speedtest as st
 import geocoder
 import time
 import GPUtil
+import sys
+import re
 
 x = wmi.WMI()
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -71,6 +73,25 @@ else:
     print("Windows OS supported only!")
 
 gpus = GPUtil.getGPUs()
+for gpu in gpus:
+    gpuwho = gpu.name
+
+def Intel_AMD_Finder(w):
+    return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
+
+if Intel_AMD_Finder('NVIDIA')(gpuwho):
+    try:
+        from py3nvml import py3nvml as nvidia_smi
+    except:
+        print("Please install the package 'nvidia-ml-py3' to get GPU information.")
+        sys.exit()
+    nvidia_smi.nvmlInit()
+    device_count = nvidia_smi.nvmlDeviceGetCount()
+
+    for i in range(device_count):
+        handle = nvidia_smi.nvmlDeviceGetHandleByIndex(i)
+        clock_rate = nvidia_smi.nvmlDeviceGetClockInfo(handle, nvidia_smi.NVML_CLOCK_GRAPHICS)
+        memory_clock_rate = nvidia_smi.nvmlDeviceGetClockInfo(handle, nvidia_smi.NVML_CLOCK_MEM)
 
 print("GPU data collected!")
 
@@ -98,8 +119,21 @@ for item in x.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
 print("CPU: {}".format(cpudata))
 print("CPU Cores:", cpu_cores)
+
+#I HATE THIS PART OF CODE!!!!!!!!!!!!!!!!
 for gpu in gpus:
-    print(f"GPU: {gpu.name} \nVRAM: {(round(gpu.memoryTotal))//1024} GB")
+    print(f"GPU: {gpu.name} \nGPU VRAM: {(round(gpu.memoryTotal))//1024} GB")
+    print("GPU Load:", gpu.load * 100, "%")
+    print("GPU Free Memory:", round(gpu.memoryFree), "MB")
+    print("GPU Used Memory:", round(gpu.memoryUsed), "MB")
+    print("GPU Temperature:", round(gpu.temperature), "°C")
+    print("GPU UUID:", gpu.uuid)
+    print(f"GPU Driver: {gpu.driver}")
+    if Intel_AMD_Finder('NVIDIA')(gpuwho):
+        print(f"GPU Clock Speed: {clock_rate} MHz")
+        print(f"GPU Memory Clock Rate: {memory_clock_rate} MHz")
+#I HATE THIS PART OF CODE!!!!!!!!!!!!!!!!
+
 for item in x.Win32_PhysicalMemory():
     if item == item:
         print("RAM: {} ".format(item.PartNumber))
@@ -107,6 +141,9 @@ for item in x.Win32_PhysicalMemory():
     else:
         print("RAM: {} ".format(item.PartNumber))
 print("RAM Capacity:", ram_total//1024//1024//1024, "GB")
+for item in x.Win32_PhysicalMemory():
+    print(f"RAM Frequency: {item.Speed} Hz")
+    break
 print("")
 
 end_time = time.time()
@@ -185,7 +222,6 @@ print("")
 print("Bye!")
 print("")
 print("\(★ω★)/")
-
 os.system("pause") # stoper
 
 
