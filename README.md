@@ -7,7 +7,9 @@ It works stably only on Windows OS and Nvidia GPUs ~~(AMD/Intel supported, but c
 
 ![code](https://user-images.githubusercontent.com/104412752/229240024-6294bec4-9add-4982-965a-721e54bd423b.png)
 
+
 ### You must have python installed to work properly!
+
 
 ![image](https://user-images.githubusercontent.com/104412752/227645135-0a748f97-8175-4f8c-bce9-e69324dc8183.png)
 
