@@ -9,6 +9,8 @@ import time
 import GPUtil
 import sys
 import re
+import socket
+import subprocess
 
 x = wmi.WMI()
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -172,6 +174,8 @@ os.system('cls' if os.name == 'nt' else 'clear')
 
 if internet_need == 1:
     print("Collecting data about your internet...")
+    hostname = socket.gethostname()
+    ip_address_h = socket.gethostbyname(hostname)
     st = st.Speedtest()
     download_speed = round(st.download()//1000000)
     upload_speed = round(st.upload()//1000000)
@@ -184,6 +188,7 @@ if internet_need == 1:
     os.system('cls' if os.name == 'nt' else 'clear')
 
     print("IP:", ip_address)
+    print("IP (internal):", ip_address_h)
     print(f"You are located in {city}, {country}")
     print(f"Download Speed: {download_speed} MB/ps")
     print(f"Upload Speed: {upload_speed} MB/ps")
@@ -223,8 +228,26 @@ if temp_need == 1:
     
     print("All temp files that were accessed have been deleted!")
 
+print("Do you want to check the integrity of Windows system files?")
+sfc_need = 2
+sfc_check = input("[Yes/No]: ")
+
+if sfc_check == "Yes":
+    sfc_need = 1
+    if sfc_check == "No":
+        sfc_need = 0
+
+os.system('cls' if os.name == 'nt' else 'clear')
+
+if sfc_need == 1:
+    print("Running sfc...")
+    subprocess.run(["sfc", "/scannow"]) 
+
 print("")
 print("Bye!")
 print("")
 print("\(★ω★)/")
 os.system("pause") # stoper
+
+
+
