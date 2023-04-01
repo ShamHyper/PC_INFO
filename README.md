@@ -1,4 +1,4 @@
-# PC_INFO 6 - MAJOR GPU UPDATE
+# PC_INFO 7
 Collecting general information about the PC, displayed as a console
 
 It is advisable to run as an administrator!
