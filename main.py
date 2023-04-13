@@ -11,6 +11,7 @@ import sys
 import re
 import socket
 import subprocess
+import winreg
 
 x = wmi.WMI()
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -77,6 +78,9 @@ else:
 gpus = GPUtil.getGPUs()
 for gpu in gpus:
     gpuwho = gpu.name
+
+key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SYSTEM\CurrentControlSet\Enum\DISPLAY")
+num_monitors = winreg.QueryInfoKey(key)[0]
 
 def Intel_AMD_Finder(w):
     return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
@@ -150,6 +154,11 @@ print("RAM Capacity:", ram_total//1024//1024//1024, "GB")
 for item in x.Win32_PhysicalMemory():
     print(f"RAM Frequency: {item.Speed} Hz")
     break
+print("----------------------------------------------------------")
+for i in range(num_monitors):
+    monitor_name = winreg.EnumKey(key, i)
+    if monitor_name != "Default_Monitor":
+        print(f"Screen: {monitor_name}")
 print("----------------------------------------------------------")
 print("")
 
