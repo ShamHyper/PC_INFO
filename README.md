@@ -1,4 +1,4 @@
-# PC_INFO 7
+# PC_INFO 8
 Collecting general information about the PC, displayed as a console
 
 It is advisable to run as an administrator!
@@ -7,7 +7,7 @@ It works stably only on Windows OS and Nvidia GPUs ~~(AMD/Intel supported, but c
 
 ### You must have python installed to work properly!
 
-![image](https://user-images.githubusercontent.com/104412752/227645135-0a748f97-8175-4f8c-bce9-e69324dc8183.png)
+![image](https://user-images.githubusercontent.com/104412752/231861552-81fd926b-a926-4ccb-b3fb-8fc7a0eebf05.png)
 
 ![image](https://user-images.githubusercontent.com/104412752/225889700-cc280e92-02d1-48e6-989b-34eac4b11233.png)
 
