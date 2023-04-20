@@ -174,7 +174,7 @@ print("Do you want to collect data about your internet?")
 internet_need = 2
 input_check = input("[Yes/No]: ")
 
-if input_check == "Yes":
+if input_check == "Yes" or "yes":
     internet_need = 1
     if input_check == "No":
         internet_need = 0
@@ -207,7 +207,7 @@ print("Do you want to clear temp files?")
 temp_need = 2
 temp_check = input("[Yes/No]: ")
 
-if temp_check == "Yes":
+if temp_check == "Yes" or "yes":
     temp_need = 1
     if temp_check == "No":
         temp_need = 0
@@ -241,7 +241,7 @@ print("Do you want to check the integrity of Windows system files?")
 sfc_need = 2
 sfc_check = input("[Yes/No]: ")
 
-if sfc_check == "Yes":
+if sfc_check == "Yes" or "yes":
     sfc_need = 1
     if sfc_check == "No":
         sfc_need = 0
