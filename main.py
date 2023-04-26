@@ -3,7 +3,6 @@ import platform
 import requests
 import psutil
 import wmi
-import speedtest as st
 import geocoder
 import time
 import GPUtil
@@ -14,7 +13,11 @@ import subprocess
 import winreg
 
 x = wmi.WMI()
-os.system('cls' if os.name == 'nt' else 'clear')
+def clear():
+    print('\033[37m')
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+clear()
 
 print('\033[31m')
 print("Dev: ShamHyper, Daun-Dev Studios")
@@ -111,9 +114,9 @@ cpu_cores = psutil.cpu_count(logical=True)
 print("CPU data collected!")
 
 # Bruh?
-os.system('cls' if os.name == 'nt' else 'clear')
+clear()
 # Bruh?
-os.system('cls' if os.name == 'nt' else 'clear')
+clear()
 # Bruh?
 
 print('\033[37m')
@@ -168,53 +171,48 @@ total_time = round(end_time - start_time)
 print('\033[33m')
 print("Information search time: ~", total_time, "seconds")
 print("")
-
+print('\033[37m')
 print("Do you want to collect data about your internet?")
 
-internet_need = 2
-input_check = input("[Yes/No]: ")
+internet_need = False
+input_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
+if input_check == ("Yes" or "yes" or "y" or "Y"):
+    internet_need = True
+else:
+    internet_need = False
 
-if input_check == "Yes" or "yes":
-    internet_need = 1
-    if input_check == "No":
-        internet_need = 0
+clear()
 
-os.system('cls' if os.name == 'nt' else 'clear')
-
-if internet_need == 1:
+if internet_need == True:
     print("Collecting data about your internet...")
     hostname = socket.gethostname()
     ip_address_h = socket.gethostbyname(hostname)
-    st = st.Speedtest()
-    download_speed = round(st.download()//1000000)
-    upload_speed = round(st.upload()//1000000)
+
     ip_response = requests.get('https://api.ipify.org?format=json')
     ip_address = ip_response.json()['ip']
     g = geocoder.ip('me')
     city = g.city
     country = g.country   
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    clear()
 
     print("IP:", ip_address)
     print("IP (internal):", ip_address_h)
     print(f"You are located in {city}, {country}")
-    print(f"Download Speed: {download_speed} MB/ps")
-    print(f"Upload Speed: {upload_speed} MB/ps")
     print("")
 
 print("Do you want to clear temp files?")
-temp_need = 2
-temp_check = input("[Yes/No]: ")
+temp_need = False
+temp_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
 
-if temp_check == "Yes" or "yes":
-    temp_need = 1
-    if temp_check == "No":
-        temp_need = 0
+if temp_check == ("Yes" or "yes" or "y" or "Y"):
+    temp_need = True
+else:
+    temp_need = False
 
-os.system('cls' if os.name == 'nt' else 'clear')
+clear()
 
-if temp_need == 1:
+if temp_need == True:
     def clean_temp_files(root_dir):
         for subdir, dirs, files in os.walk(root_dir):
             for file in files:
@@ -233,22 +231,22 @@ if temp_need == 1:
 
     clean_temp_directory()
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    clear()
     
     print("All temp files that were accessed have been deleted!")
 
 print("Do you want to check the integrity of Windows system files?")
-sfc_need = 2
-sfc_check = input("[Yes/No]: ")
+sfc_need = False
+sfc_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
 
-if sfc_check == "Yes" or "yes":
-    sfc_need = 1
-    if sfc_check == "No":
-        sfc_need = 0
+if sfc_check == ("Yes" or "yes" or "y" or "Y"):
+    sfc_need = True
+else:
+    sfc_need = False
 
-os.system('cls' if os.name == 'nt' else 'clear')
+clear()
 
-if sfc_need == 1:
+if sfc_need == True:
     print("Running sfc...")
     subprocess.run(["sfc", "/scannow"]) 
 
