@@ -13,6 +13,9 @@ import subprocess
 import winreg
 
 x = wmi.WMI()
+
+yep = ["Yes", "yes", "Y", "y", "Да", "да", "1"]
+
 def clear():
     print('\033[37m')
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -176,7 +179,7 @@ print("Do you want to collect data about your internet?")
 
 internet_need = False
 input_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
-if input_check == ("Yes" or "yes") or ("y" or "Y"):
+if input_check in yep:
     internet_need = True
 else:
     internet_need = False
@@ -205,7 +208,7 @@ print("Do you want to clear temp files?")
 temp_need = False
 temp_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
 
-if temp_check == ("Yes" or "yes") or ("y" or "Y"):
+if temp_check in yep:
     temp_need = True
 else:
     temp_need = False
@@ -239,7 +242,7 @@ print("Do you want to check the integrity of Windows system files?")
 sfc_need = False
 sfc_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
 
-if sfc_check == ("Yes" or "yes") or ("y" or "Y"):
+if sfc_check in yep:
     sfc_need = True
 else:
     sfc_need = False
