@@ -11,6 +11,7 @@ import re
 import socket
 import subprocess
 import winreg
+import shutil
 
 x = wmi.WMI()
 
@@ -232,7 +233,19 @@ if temp_need == True:
         for dir_path in (temp_dir, cache_dir):
             clean_temp_files(dir_path)
 
+    def clear_nvidia_cache():
+        nvidia_path_1 = os.path.join(user_folder, "AppData", "Local", "NVIDIA", "DXCache")
+        nvidia_path_2 = os.path.join(user_folder, "AppData", "Local", "NVIDIA", "GLCache")
+        try:
+            shutil.rmtree(nvidia_path_1, ignore_errors = True)
+            shutil.rmtree(nvidia_path_2, ignore_errors = True)
+        except PermissionError:
+            print(f"No permission to delete {nvidia_path_1}.")
+            print(f"No permission to delete {nvidia_path_2}.")
+
     clean_temp_directory()
+
+    clear_nvidia_cache()
 
     clear()
     
