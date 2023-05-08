@@ -1,4 +1,4 @@
-![PC_INFO](https://user-images.githubusercontent.com/104412752/236769436-4d6289e2-2b34-49a5-ac4f-ed10cb547eb3.png)
+![PC_INFO](https://user-images.githubusercontent.com/104412752/236770015-220265be-44e3-491d-bb38-fc1beeb224c0.png)
 
 ### Collecting general information about the PC, displayed as a console
 
