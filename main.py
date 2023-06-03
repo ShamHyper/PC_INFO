@@ -11,7 +11,7 @@ import re
 import socket
 import subprocess
 import winreg
-import shutil
+from tqdm import tqdm
 
 x = wmi.WMI()
 
@@ -136,25 +136,26 @@ print("CPU: {}".format(cpudata))
 print("CPU Cores:", cpu_cores)
 print("----------------------------------------------------------")
 
-#I HATE THIS PART OF CODE!!!!!!!!!!!!!!!!
+gpu_slots = -1
 for gpu in gpus:
-    print(f"GPU: {gpu.name} \nGPU VRAM: {(round(gpu.memoryTotal))//1024} GB")
-    print("GPU Load:", gpu.load * 100, "%")
-    print("GPU Free Memory:", round(gpu.memoryFree), "MB")
-    print("GPU Used Memory:", round(gpu.memoryUsed), "MB")
-    print("GPU Temperature:", round(gpu.temperature), "°C")
-    print("GPU UUID:", gpu.uuid)
-    print(f"GPU Driver: {gpu.driver}")
+    gpu_slots += 1
+    print(f"GPU {gpu_slots}: {gpu.name}")
+    print(f"GPU {gpu_slots} Load:", gpu.load * 100, "%")
+    print(f"GPU {gpu_slots} VRAM Total:", round(gpu.memoryTotal), "MB")
+    print(f"GPU {gpu_slots} VRAM Free:", round(gpu.memoryFree), "MB")
+    print(f"GPU {gpu_slots} VRAM Used:", round(gpu.memoryUsed), "MB")
+    print(f"GPU {gpu_slots} Temperature:", round(gpu.temperature), "°C")
+    print(f"GPU {gpu_slots} Driver: {gpu.driver}")   
     if Intel_AMD_Finder('NVIDIA')(gpuwho):
-        print(f"GPU Clock Speed: {clock_rate} MHz")
-        print(f"GPU Memory Clock Rate: {memory_clock_rate} MHz")
-#I HATE THIS PART OF CODE!!!!!!!!!!!!!!!!
-
+        print(f"GPU {gpu_slots} Clock Speed: {clock_rate} MHz")
+        print(f"GPU {gpu_slots} Memory Clock Rate: {memory_clock_rate} MHz")
 print("----------------------------------------------------------")
+
+ram_slots = -1
 for item in x.Win32_PhysicalMemory():
     if item == item:
-        print("RAM: {} ".format(item.PartNumber))
-        break
+        ram_slots += 1
+        print(f"RAM {ram_slots}: {{}}".format(item.PartNumber))
     else:
         print("RAM: {} ".format(item.PartNumber))
 print("RAM Capacity:", ram_total//1024//1024//1024, "GB")
@@ -217,6 +218,33 @@ else:
 clear()
 
 if temp_need == True:
+    def clean_win_temp():
+        Wtemp_path = os.path.abspath("C:\\Windows\\Temp")
+        win_temp_size = 0
+        for root, dirs, files in os.walk(Wtemp_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                try:
+                    os.remove(file_path)
+                    win_temp_size += os.path.getsize(file_path)
+                except PermissionError:
+                    pass
+                except FileNotFoundError:
+                    pass
+            for file in files:
+                Wtemp_path = os.path.join(root, file)
+                try:
+                    win_temp_size_ = os.path.getsize(Wtemp_path)
+                    win_temp_size += win_temp_size_
+                    os.mkdir(Wtemp_path)
+                except PermissionError:
+                    pass
+                except FileNotFoundError:
+                    pass
+                except FileExistsError:
+                    pass
+        return win_temp_size / 1024 / 1024 / 1024
+
     def clean_temp_files(root_dir):
         total_size = 0
         for subdir, dirs, files in os.walk(root_dir):
@@ -249,9 +277,10 @@ if temp_need == True:
             nvidia_cache_size += dir_size
         return nvidia_cache_size
 
+    win_temp_size = clean_win_temp()
     total_size = clean_temp_directory()
     nvidia_cache_size = clear_nvidia_cache()
-    all_cache = total_size + nvidia_cache_size
+    all_cache = total_size + win_temp_size + nvidia_cache_size
 
     clear()
 
@@ -272,11 +301,11 @@ if sfc_need == True:
     print("Running sfc...")
     subprocess.run(["sfc", "/scannow"]) 
 
-print("")
 print("Bye!")
-print("")
 print("\(★ω★)/")
-os.system("pause") # stoper
+print("")
 
-
-
+print("The program will close at the end of the timer:")
+mylist = [x for x in range(1, 300)]
+for i in tqdm(mylist):
+    time.sleep(0.00001)
