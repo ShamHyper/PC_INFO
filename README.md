@@ -2,7 +2,7 @@
 
 ### Collecting general information about the PC, displayed as a console
 
-#### It is advisable to run as an administrator!
+#### It is **VERY advisory** to run as an administrator!
 
 It works stably only on Windows OS and Nvidia GPUs ~~(AMD/Intel supported, but can work wrong!)~~ - __Now there is support for AMD/Intel video cards, but you will not be able to find out the frequency of the video core and memory__
 
