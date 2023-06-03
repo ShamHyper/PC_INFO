@@ -10,4 +10,5 @@ The **PC_INFO** has additional functions: searching for information about the ne
 
 #### You must have [Python 3.x+](https://www.python.org/downloads/) installed to work properly!
 
-![image](https://user-images.githubusercontent.com/104412752/231861552-81fd926b-a926-4ccb-b3fb-8fc7a0eebf05.png)
+![image](https://github.com/ShamHyper/PC_INFO/assets/104412752/ec7b4ae4-4671-4928-81a1-545270f03b0d)
+
