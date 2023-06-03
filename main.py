@@ -218,38 +218,44 @@ clear()
 
 if temp_need == True:
     def clean_temp_files(root_dir):
+        total_size = 0
         for subdir, dirs, files in os.walk(root_dir):
             for file in files:
                 file_path = os.path.join(subdir, file)
                 try:
                     if os.path.isfile(file_path):
+                        file_size = os.path.getsize(file_path)
+                        total_size += file_size
                         os.unlink(file_path)
                 except Exception as e:
                     print(f'Error: {file_path} - {e}')
-    
+        return total_size / 1024 / 1024 / 1024
+
     def clean_temp_directory():
         temp_dir = os.getenv('temp')
         cache_dir = os.path.expanduser('~\\AppData\\Local\\Temp')
+        total_size = 0
         for dir_path in (temp_dir, cache_dir):
-            clean_temp_files(dir_path)
+            dir_size = clean_temp_files(dir_path)
+            total_size += dir_size
+        return total_size
 
     def clear_nvidia_cache():
         nvidia_path_1 = os.path.join(user_folder, "AppData", "Local", "NVIDIA", "DXCache")
         nvidia_path_2 = os.path.join(user_folder, "AppData", "Local", "NVIDIA", "GLCache")
-        try:
-            shutil.rmtree(nvidia_path_1, ignore_errors = True)
-            shutil.rmtree(nvidia_path_2, ignore_errors = True)
-        except PermissionError:
-            print(f"No permission to delete {nvidia_path_1}.")
-            print(f"No permission to delete {nvidia_path_2}.")
+        nvidia_cache_size = 0
+        for dir_path in (nvidia_path_1, nvidia_path_2):
+            dir_size = clean_temp_files(dir_path)
+            nvidia_cache_size += dir_size
+        return nvidia_cache_size
 
-    clean_temp_directory()
-
-    clear_nvidia_cache()
+    total_size = clean_temp_directory()
+    nvidia_cache_size = clear_nvidia_cache()
+    all_cache = total_size + nvidia_cache_size
 
     clear()
-    
-    print("All temp files that were accessed have been deleted!")
+
+    print(f"Total size of deleted files: {all_cache:.2f} GB")
 
 print("Do you want to check the integrity of Windows system files?")
 sfc_need = False
