@@ -9,9 +9,7 @@ import GPUtil
 import sys
 import re
 import socket
-import subprocess
 import winreg
-from tqdm import tqdm
 
 x = wmi.WMI()
 
@@ -22,11 +20,6 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 clear()
-
-print('\033[31m')
-print("Dev: ShamHyper, Daun-Dev Studios")
-print('\033[32m')
-print("Wait, we collect data about your PC...")
 
 start_time = time.time()
 
@@ -176,136 +169,8 @@ total_time = round(end_time - start_time)
 print('\033[33m')
 print("Information search time: ~", total_time, "seconds")
 print("")
-print('\033[37m')
-print("Do you want to collect data about your internet?")
-
-internet_need = False
-input_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
-if input_check in yep:
-    internet_need = True
-else:
-    internet_need = False
-
-clear()
-
-if internet_need == True:
-    print("Collecting data about your internet...")
-    hostname = socket.gethostname()
-    ip_address_h = socket.gethostbyname(hostname)
-
-    ip_response = requests.get('https://api.ipify.org?format=json')
-    ip_address = ip_response.json()['ip']
-    g = geocoder.ip('me')
-    city = g.city
-    country = g.country   
-
-    clear()
-
-    print("IP:", ip_address)
-    print("IP (internal):", ip_address_h)
-    print(f"You are located in {city}, {country}")
-    print("")
-
-print("Do you want to clear temp files?")
-temp_need = False
-temp_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
-
-if temp_check in yep:
-    temp_need = True
-else:
-    temp_need = False
-
-clear()
-
-if temp_need == True:
-    def clean_win_temp():
-        Wtemp_path = os.path.abspath("C:\\Windows\\Temp")
-        win_temp_size = 0
-        for root, dirs, files in os.walk(Wtemp_path):
-            for file in files:
-                file_path = os.path.join(root, file)
-                try:
-                    os.remove(file_path)
-                    win_temp_size += os.path.getsize(file_path)
-                except PermissionError:
-                    pass
-                except FileNotFoundError:
-                    pass
-            for file in files:
-                Wtemp_path = os.path.join(root, file)
-                try:
-                    win_temp_size_ = os.path.getsize(Wtemp_path)
-                    win_temp_size += win_temp_size_
-                    os.mkdir(Wtemp_path)
-                except PermissionError:
-                    pass
-                except FileNotFoundError:
-                    pass
-                except FileExistsError:
-                    pass
-        return win_temp_size / 1024 / 1024 / 1024
-
-    def clean_temp_files(root_dir):
-        total_size = 0
-        for subdir, dirs, files in os.walk(root_dir):
-            for file in files:
-                file_path = os.path.join(subdir, file)
-                try:
-                    if os.path.isfile(file_path):
-                        file_size = os.path.getsize(file_path)
-                        total_size += file_size
-                        os.unlink(file_path)
-                except Exception as e:
-                    print(f'Error: {file_path} - {e}')
-        return total_size / 1024 / 1024 / 1024
-
-    def clean_temp_directory():
-        temp_dir = os.getenv('temp')
-        cache_dir = os.path.expanduser('~\\AppData\\Local\\Temp')
-        total_size = 0
-        for dir_path in (temp_dir, cache_dir):
-            dir_size = clean_temp_files(dir_path)
-            total_size += dir_size
-        return total_size
-
-    def clear_nvidia_cache():
-        nvidia_path_1 = os.path.join(user_folder, "AppData", "Local", "NVIDIA", "DXCache")
-        nvidia_path_2 = os.path.join(user_folder, "AppData", "Local", "NVIDIA", "GLCache")
-        nvidia_cache_size = 0
-        for dir_path in (nvidia_path_1, nvidia_path_2):
-            dir_size = clean_temp_files(dir_path)
-            nvidia_cache_size += dir_size
-        return nvidia_cache_size
-
-    win_temp_size = clean_win_temp()
-    total_size = clean_temp_directory()
-    nvidia_cache_size = clear_nvidia_cache()
-    all_cache = total_size + win_temp_size + nvidia_cache_size
-
-    clear()
-
-    print(f"Total size of deleted files: {all_cache:.2f} GB")
-
-print("Do you want to check the integrity of Windows system files?")
-sfc_need = False
-sfc_check = input("Type [Yes/yes/Y/y] or press Enter to skip: ")
-
-if sfc_check in yep:
-    sfc_need = True
-else:
-    sfc_need = False
-
-clear()
-
-if sfc_need == True:
-    print("Running sfc...")
-    subprocess.run(["sfc", "/scannow"]) 
-
 print("Bye!")
+print("")
 print("\(★ω★)/")
 print("")
-
-print("The program will close at the end of the timer:")
-mylist = [x for x in range(1, 300)]
-for i in tqdm(mylist):
-    time.sleep(0.00001)
+input()
