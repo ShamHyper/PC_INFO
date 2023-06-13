@@ -8,5 +8,7 @@ It works stably only on Windows OS and Nvidia GPUs ~~(AMD/Intel supported, but c
 
 #### You must have [Python 3.x+](https://www.python.org/downloads/) installed to work properly! Tested on Python 3.10.6, 3.10.9, 3.11
 
+PC cleaning function is now here - [PC_CLEANER](https://github.com/ShamHyper/PC_CLEANER)
+
 ![image](https://github.com/ShamHyper/PC_INFO/assets/104412752/ec7b4ae4-4671-4928-81a1-545270f03b0d)
 
