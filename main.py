@@ -7,14 +7,11 @@ import GPUtil
 import sys
 import re
 import winreg
+from clear import clear
 
-x = wmi.WMI()
+wmix = wmi.WMI()
 
 yep = ["Yes", "yes", "Y", "y", "Да", "да", "1"]
-
-def clear():
-    print('\033[37m')
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 clear()
 
@@ -104,14 +101,11 @@ ram_total = psutil.virtual_memory().total
 print("RAM data collected!")
 
 cpu_cores = psutil.cpu_count(logical=True)
+cpu_load = round(psutil.cpu_percent())
 
 print("CPU data collected!")
 
-# Bruh?
 clear()
-# Bruh?
-clear()
-# Bruh?
 
 print('\033[37m')
 print("----------------------------------------------------------")
@@ -120,17 +114,18 @@ print("User Dir:", user_folder)
 print("OS:", rel)
 print("----------------------------------------------------------")
 print("Free Space: ~", space, "GB")
-for item in x.Win32_BaseBoard():
+for item in wmix.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
 print("CPU: {}".format(cpudata))
 print("CPU Cores:", cpu_cores)
+print(f"CPU Load: {cpu_load} %")
 print("----------------------------------------------------------")
 
 gpu_slots = -1
 for gpu in gpus:
     gpu_slots += 1
     print(f"GPU {gpu_slots}: {gpu.name}")
-    print(f"GPU {gpu_slots} Load:", gpu.load * 100, "%")
+    print(f"GPU {gpu_slots} Load:", round(gpu.load * 100), "%")
     print(f"GPU {gpu_slots} VRAM Total:", round(gpu.memoryTotal), "MB")
     print(f"GPU {gpu_slots} VRAM Free:", round(gpu.memoryFree), "MB")
     print(f"GPU {gpu_slots} VRAM Used:", round(gpu.memoryUsed), "MB")
@@ -142,14 +137,14 @@ for gpu in gpus:
 print("----------------------------------------------------------")
 
 ram_slots = -1
-for item in x.Win32_PhysicalMemory():
+for item in wmix.Win32_PhysicalMemory():
     if item == item:
         ram_slots += 1
         print(f"RAM {ram_slots}: {{}}".format(item.PartNumber))
     else:
         print("RAM: {} ".format(item.PartNumber))
 print("RAM Capacity:", ram_total//1024//1024//1024, "GB")
-for item in x.Win32_PhysicalMemory():
+for item in wmix.Win32_PhysicalMemory():
     print(f"RAM Frequency: {item.Speed} Hz")
     break
 print("----------------------------------------------------------")
