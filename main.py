@@ -1,14 +1,11 @@
 import os
 import platform
-import requests
 import psutil
 import wmi
-import geocoder
 import time
 import GPUtil
 import sys
 import re
-import socket
 import winreg
 
 x = wmi.WMI()
