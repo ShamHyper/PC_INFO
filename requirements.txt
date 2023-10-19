@@ -1,3 +1,9 @@
-psutil
-GPUtil
 clear
+gpuinfo
+winreg
+os
+platform
+psutil
+wmi
+time
+

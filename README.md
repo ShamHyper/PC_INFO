@@ -1,4 +1,5 @@
 ![PC_INFO](https://user-images.githubusercontent.com/104412752/236770015-220265be-44e3-491d-bb38-fc1beeb224c0.png)
+[![wakatime](https://wakatime.com/badge/github/ShamHyper/PC_INFO.svg)](https://wakatime.com/badge/github/ShamHyper/PC_INFO)
 
 ### Collecting general information about the PC, displayed as a console
 

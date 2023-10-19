@@ -3,19 +3,17 @@ import platform
 import psutil
 import wmi
 import time
-import GPUtil
-import sys
-import re
 import winreg
 from clear import clear
 
-wmix = wmi.WMI()
 
-yep = ["Yes", "yes", "Y", "y", "Да", "да", "1"]
+start_time = time.time()
 
 clear()
 
-start_time = time.time()
+yep = ["Yes", "yes", "Y", "y", "Да", "да", "1"]
+
+wmix = wmi.WMI()
 
 user_name = os.getlogin()
 user_folder = os.path.expanduser('~')
@@ -69,31 +67,10 @@ if system == "Windows":
 else:
     print("Windows OS supported only!")
 
-gpus = GPUtil.getGPUs()
-for gpu in gpus:
-    gpuwho = gpu.name
-
 key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SYSTEM\CurrentControlSet\Enum\DISPLAY")
 num_monitors = winreg.QueryInfoKey(key)[0]
 
-def Intel_AMD_Finder(w):
-    return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
-
-if Intel_AMD_Finder('NVIDIA')(gpuwho):
-    try:
-        from py3nvml import py3nvml as nvidia_smi
-    except:
-        print("Please install the package 'nvidia-ml-py3' to get GPU information.")
-        sys.exit()
-    nvidia_smi.nvmlInit()
-    device_count = nvidia_smi.nvmlDeviceGetCount()
-
-    for i in range(device_count):
-        handle = nvidia_smi.nvmlDeviceGetHandleByIndex(i)
-        clock_rate = nvidia_smi.nvmlDeviceGetClockInfo(handle, nvidia_smi.NVML_CLOCK_GRAPHICS)
-        memory_clock_rate = nvidia_smi.nvmlDeviceGetClockInfo(handle, nvidia_smi.NVML_CLOCK_MEM)
-
-print("GPU data collected!")
+print("Screens data collected!")
 
 process = psutil.Process()
 ram_total = psutil.virtual_memory().total
@@ -104,38 +81,64 @@ cpu_cores = psutil.cpu_count(logical=True)
 cpu_load = round(psutil.cpu_percent())
 
 print("CPU data collected!")
-
+print('\033[37m')
 clear()
 
-print('\033[37m')
 print("----------------------------------------------------------")
 print("User:", user_name)
 print("User Dir:", user_folder)
 print("OS:", rel)
 print("----------------------------------------------------------")
 print("Free Space: ~", space, "GB")
+
 for item in wmix.Win32_BaseBoard():
     print("Motherboard: {} ".format(item.Product))
+
 print("CPU: {}".format(cpudata))
 print("CPU Cores:", cpu_cores)
 print(f"CPU Load: {cpu_load} %")
 print("----------------------------------------------------------")
 
-gpu_slots = -1
-for gpu in gpus:
-    gpu_slots += 1
-    print(f"GPU {gpu_slots}: {gpu.name}")
-    print(f"GPU {gpu_slots} Load:", round(gpu.load * 100), "%")
-    print(f"GPU {gpu_slots} VRAM Total:", round(gpu.memoryTotal), "MB")
-    print(f"GPU {gpu_slots} VRAM Free:", round(gpu.memoryFree), "MB")
-    print(f"GPU {gpu_slots} VRAM Used:", round(gpu.memoryUsed), "MB")
-    print(f"GPU {gpu_slots} Temperature:", round(gpu.temperature), "°C")
-    print(f"GPU {gpu_slots} Driver: {gpu.driver}")   
-    if Intel_AMD_Finder('NVIDIA')(gpuwho):
-        print(f"GPU {gpu_slots} Clock Speed: {clock_rate} MHz")
-        print(f"GPU {gpu_slots} Memory Clock Rate: {memory_clock_rate} MHz")
+i_gpu = 0
+try:
+    from gpuinfo.nvidia import get_gpus
+    for gpu in get_gpus():
+        gpu_name = gpu.__dict__["name"]
+        gpu_video = gpu.__dict__["total_memory"]
+        gpu_clock_max = gpu.get_max_clock_speeds()["max_core_clock_speed"]
+        gpu_vram_clock_max = gpu.get_max_clock_speeds()["max_memory_clock_speed"]
+        gpu_clock = gpu.get_clock_speeds()["core_clock_speed"]
+        gpu_vram_clock = gpu.get_clock_speeds()["memory_clock_speed"]
+        gpu_used_memory = gpu.get_memory_details()["used_memory"]
+        gpu_free_memory = gpu.get_memory_details()["free_memory"]
+        
+        print(f"GPU {i_gpu}: {gpu_name}")
+        print(f"GPU {i_gpu} VRAM: {gpu_video} MB")
+        print(f"GPU {i_gpu} Used VRAM: {gpu_used_memory} MB")
+        print(f"GPU {i_gpu} Free VRAM: {gpu_free_memory} MB")
+        print(f"GPU {i_gpu} Clock Speed: {gpu_clock} MHz")
+        print(f"GPU {i_gpu} VRAM Clock Speed: {gpu_vram_clock} MHz")
+        print(f"GPU {i_gpu} Max Clock Speed: {gpu_clock_max} MHz")
+        print(f"GPU {i_gpu} Max VRAM Clock Speed: {gpu_vram_clock_max} MHz")
+        print("----------------------------------------------------------")
+        
+        i_gpu += 1
+except:
+    from gpuinfo.windows import get_gpus
+    for gpu in get_gpus():
+        gpu_name = gpu.__dict__["name"]
+        gpu_video = gpu.__dict__["total_memory"]
+        print(f"GPU {i_gpu}: {gpu_name}")
+        print(f"GPU {i_gpu} VRAM: {gpu_video}")
+        i_gpu += 1
+    print("----------------------------------------------------------")
+    
+for i in range(num_monitors):
+    monitor_name = winreg.EnumKey(key, i)
+    if monitor_name != "Default_Monitor":
+        print(f"Screen: {monitor_name}")
 print("----------------------------------------------------------")
-
+        
 ram_slots = -1
 for item in wmix.Win32_PhysicalMemory():
     if item == item:
@@ -148,11 +151,6 @@ for item in wmix.Win32_PhysicalMemory():
     print(f"RAM Frequency: {item.Speed} Hz")
     break
 print("----------------------------------------------------------")
-for i in range(num_monitors):
-    monitor_name = winreg.EnumKey(key, i)
-    if monitor_name != "Default_Monitor":
-        print(f"Screen: {monitor_name}")
-print("----------------------------------------------------------")
 print("")
 
 end_time = time.time()
@@ -160,9 +158,6 @@ total_time = round(end_time - start_time)
 
 print('\033[33m')
 print("Information search time: ~", total_time, "seconds")
-print("")
 print("Bye!")
-print("")
 print("\(★ω★)/")
-print("")
 input()
