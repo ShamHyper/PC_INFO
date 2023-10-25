@@ -41,8 +41,6 @@ system = platform.system()
 platform = platform.platform()
 
 if system == "Windows":
-    import winreg
-
     cpudata = ""
     regpath = r"HARDWARE\DESCRIPTION\System\CentralProcessor\0"
     valuename = "ProcessorNameString"
