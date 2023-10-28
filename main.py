@@ -2,13 +2,11 @@ import os
 import platform
 import psutil
 import wmi
-import time
 import winreg
 from clear import clear
+from time import time
 
-
-start_time = time.time()
-
+start_time = time()
 clear()
 
 yep = ["Yes", "yes", "Y", "y", "Да", "да", "1"]
@@ -121,7 +119,7 @@ try:
         print("----------------------------------------------------------")
         
         i_gpu += 1
-except:
+except Exception:
     from gpuinfo.windows import get_gpus
     for gpu in get_gpus():
         gpu_name = gpu.__dict__["name"]
@@ -151,11 +149,11 @@ for item in wmix.Win32_PhysicalMemory():
 print("----------------------------------------------------------")
 print("")
 
-end_time = time.time()
-total_time = round(end_time - start_time)
+end_time = time()
+total_time = round(end_time - start_time, 2)
 
 print('\033[33m')
-print("Information search time: ~", total_time, "seconds")
+print(f"Information search time: ~{total_time} seconds")
 print("Bye!")
 print("\(★ω★)/")
 input()
