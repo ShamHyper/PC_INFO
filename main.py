@@ -158,7 +158,6 @@ def print_all():
 file_name = pc_name + ".txt"
 
 with open(file_name, "w") as f:
-    # Замена стандартного потока вывода на файловый объект
     sys.stdout = f
     print_all()
 
