@@ -11,5 +11,5 @@ PC cleaning function is now here - [PC_CLEANER](https://github.com/ShamHyper/PC_
 2. Unarchive
 3. For first time, run install.bat. Next time use run.bat 
 
-![image](https://github.com/ShamHyper/PC_INFO/assets/104412752/ec7b4ae4-4671-4928-81a1-545270f03b0d)
+![image](https://i.imgur.com/sMjpGo6.png)
 
