@@ -66,11 +66,6 @@ if system == "Windows":
 else:
     print("Windows OS supported only!")
 
-key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SYSTEM\CurrentControlSet\Enum\DISPLAY")
-num_monitors = winreg.QueryInfoKey(key)[0]
-
-print("Screens data collected!")
-
 process = psutil.Process()
 ram_total = psutil.virtual_memory().total
 
@@ -135,10 +130,10 @@ def print_all():
             i_gpu += 1
         print("----------------------------------------------------------")
         
-    for i in range(num_monitors):
-        monitor_name = winreg.EnumKey(key, i)
-        if monitor_name != "Default_Monitor":
-            print(f"Screen: {monitor_name}")
+    for monitor in wmix.Win32_PnPEntity():
+        if 'monitor' in str(monitor.caption).lower():
+            model_info = monitor.caption.split('(')[-1].replace(')', '')
+            print(f"Monitor Model: {model_info}")
     print("----------------------------------------------------------")
             
     ram_slots = -1
